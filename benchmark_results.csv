@@ -1,0 +1,7 @@
+CPU (single-thread),0.4214
+CPU (parallel),0.9617
+RAM (sequential),0.1909
+RAM (random access),0.1041
+Disk I/O (sequential),0.1870
+Disk I/O (random),0.0047
+Image Render,0.5466
