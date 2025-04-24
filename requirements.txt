@@ -7,3 +7,5 @@ speedtest-cli
 torch
 torchvision
 torchaudio
+pygame
+pygamextras
