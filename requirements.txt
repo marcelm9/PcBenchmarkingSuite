@@ -1,0 +1,9 @@
+psutil
+numpy
+matplotlib
+pillow
+requests
+speedtest-cli
+torch
+torchvision
+torchaudio
