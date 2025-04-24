@@ -22,21 +22,24 @@ def log_to_csv(name, duration):
             writer.writerow([name, f"{duration:.4f}"])
 
 
-def benchmark_avg(name):
+def benchmark_avg(name, iterations=None):
     def decorator(func):
         def wrapper():
             durations = []
-            for _ in range(REPEAT):
+            it = iterations if iterations is not None else REPEAT
+            for _ in range(it):
                 result = func()
                 if isinstance(result, float) and result > 0:
                     durations.append(result)
             if durations:
                 avg_time = sum(durations) / len(durations)
-                print(f"🟢 {name}: {avg_time:.2f}s (avg over {REPEAT})")
+                print(f"🟢 {name}: {avg_time:.2f}s (avg over {it})")
                 log_to_csv(name, avg_time)
             else:
                 print(f"🔴 {name}: Test skipped or failed.")
+
         return wrapper
+
     return decorator
 
 
@@ -126,13 +129,15 @@ def disk_io_test_random():
     return time.time() - start
 
 
-@benchmark_avg("Network Speedtest")
+@benchmark_avg("Network Speedtest", 1)
 def network_test():
     try:
-        result = subprocess.run(["speedtest-cli", "--simple"], capture_output=True, text=True, timeout=30)
+        result = subprocess.run(
+            ["speedtest-cli", "--simple"], capture_output=True, text=True, timeout=30
+        )
         print(result.stdout.strip())
         return 0.0  # Skip timing for now
-    except Exception as e:
+    except Exception:
         return None
 
 
